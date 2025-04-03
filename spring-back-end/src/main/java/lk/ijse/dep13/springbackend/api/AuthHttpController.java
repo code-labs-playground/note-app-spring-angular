@@ -28,7 +28,7 @@ public class AuthHttpController {
             stm.setString(1, user.getEmail());
             ResultSet rst = stm.executeQuery();
             // Readability Improvement
-            if (rst.next()) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
+            if (!rst.next()) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
 
             String actualPassword = rst.getString("password");
             String encryptedPassword = DigestUtils.sha256Hex(user.getPassword());
