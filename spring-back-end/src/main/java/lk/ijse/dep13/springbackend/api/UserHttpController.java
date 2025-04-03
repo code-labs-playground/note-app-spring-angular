@@ -93,7 +93,11 @@ public class UserHttpController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/me")
-    public String deleteUser() {
-        return "Delete authenticated user account";
+    public void deleteUser(@SessionAttribute("user") String email) throws SQLException {
+    if (email == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email");
+        try(PreparedStatement stm = connection.prepareStatement("DELETE FROM \"user\" WHERE email=?")) {
+            stm.setString(1, email);
+            stm.executeUpdate();
+        }
     }
 }
