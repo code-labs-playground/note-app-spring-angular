@@ -23,7 +23,7 @@ public class NoteHttpController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/{id:^\\d+$}}")
+    @PatchMapping("/{id:^\\d+$}")
     public String updateNote(@PathVariable Integer id){
         return "Update note " + id;
     }
