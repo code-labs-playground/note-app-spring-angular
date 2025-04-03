@@ -7,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
+  user = {
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  }
 
 }
