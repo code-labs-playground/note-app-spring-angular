@@ -24,8 +24,9 @@ public class NoteHttpController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Note createNote(@SessionAttribute(value = "user", required = false) String email, @RequestBody Note note) throws SQLException {
-        if (email == null)throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                "This operation only supports for authorized users");
+        // Checking in the SecurityInterceptor
+//        if (email == null)throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+//                "This operation only supports for authorized users");
         try(var stm = connection.prepareStatement("INSERT INTO note (text, \"user\", color) VALUES (?,?,?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             stm.setString(1, note.getText());
@@ -42,8 +43,9 @@ public class NoteHttpController {
 
     @GetMapping
     public List<Note> getAllNotes(@SessionAttribute(value = "user", required = false)  String email) throws SQLException {
-        if (email == null)throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                "This operation only supports for authorized users");
+        // Checking in the SecurityInterceptor
+//        if (email == null)throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+//                "This operation only supports for authorized users");
         try(var stm = connection.prepareStatement("SELECT * FROM note WHERE \"user\" = ?")) {
             // When Considering the Performance, we can use LinkedList for these kinds of Operations
             LinkedList<Note> noteList = new LinkedList<>();
@@ -61,8 +63,9 @@ public class NoteHttpController {
 
     @GetMapping("/{id:^\\d+$}")
     public Note getNote(@PathVariable Integer id, @SessionAttribute(value = "user", required = false) String email) throws SQLException {
-        if (email == null)throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                "This operation only supports for authorized users");
+        // Checking in the SecurityInterceptor
+//        if (email == null)throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+//                "This operation only supports for authorized users");
         try(var stm = connection.prepareStatement("SELECT * FROM note WHERE id = ? AND \"user\" = ?")) {
             stm.setInt(1, id);
             stm.setString(2, email);
@@ -95,8 +98,9 @@ public class NoteHttpController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id:^\\d+$}")
     public void deleteNote(@PathVariable Integer id, @SessionAttribute(value = "user", required = false) String email) throws SQLException {
-        if (email == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                "This operation only supports for authenticated users");
+        // Checking in the SecurityInterceptor
+//        if (email == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+//                "This operation only supports for authenticated users");
         try(var stm = connection.prepareStatement("DELETE FROM note WHERE id=? AND \"user\"=?")){
             stm.setInt(1, id);
             stm.setString(2, email);
