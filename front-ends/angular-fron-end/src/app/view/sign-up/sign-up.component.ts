@@ -13,5 +13,6 @@ export class SignUpComponent {
     password: '',
     confirmPassword: ''
   }
+  value = 'ijse';
 
 }
